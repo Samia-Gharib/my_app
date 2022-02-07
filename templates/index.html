@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+<title> Breast Cancer Metastasis Prediction by Machine Learning</title>
+<style>
+ 
+        /* Styling the Body element i.e. Color,
+        Font, Alignment */
+        body {
+            background-color: #05c46b;
+            font-family: Verdana;
+            text-align: center;
+        }
+	h2{
+	  color: blue;
+	  font-family: sans-serif;
+  	  margin: 20px;
+	  }
+ 
+        /* Styling the Form (Color, Padding, Shadow) */
+        form {
+            background-color: #fff;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px 20px;
+            box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+        }
+ 
+        /* Styling form-control Class */
+        .form-control {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+ 
+        /* Styling form-control Label */
+        .form-control label {
+            display: block;
+            margin-bottom: 10px;
+        }
+ 
+        /* Styling form-control input,
+        select, textarea */
+        .form-control input,
+        .form-control select,
+        .form-control textarea {
+            border: 1px solid #777;
+            border-radius: 2px;
+            font-family: inherit;
+            padding: 10px;
+            display: block;
+            width: 95%;
+        }
+ 
+        /* Styling form-control Radio
+        button and Checkbox */
+        .form-control input[type="radio"],
+        .form-control input[type="checkbox"] {
+            display: inline-block;
+            width: auto;
+        }
+ 
+        /* Styling Button */
+        button {
+            background-color: #05c46b;
+            border: 1px solid #777;
+            border-radius: 2px;
+            font-family: inherit;
+            font-size: 21px;
+            display: block;
+            width: 100%;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1> Breast Cancer Metastasis Prediction </h1>
+<form action="{{url_for('y_predict')}}" , method="post" id="form">
+   <div class = "form-control">
+    <label for="histologic_label" id = "label_"> Histologic Type Biopsy :</label>
+      <select name = "hist_val" id="hist_val">
+	<option value = " positive for malignancy by FNAC selected> positive for malignancy by FNAC </option>
+        <option value = " IDC "> IDC </option>
+        <option value = " DCIS "> DCIS </option>
+        <option value = " ILC "> ILC </option>
+        <option value = " mucinous "> mucinous </option>
+        <option value = " mixed "> mixed </option>
+        <option value = " Inconclusive  "> Inconclusive  </option>
+        <option value = " papillary carciNOma "> papillary carciNOma </option>
+        <option value = " medullary carciNOma "> medullary carciNOma </option>
+        <option value = " tubular "> tubular </option>
+        <option value = " well diff neuroendocrine carciNOma "> well diff neuroendocrine carciNOma </option>
+        <option value = " others "> others </option>
+     </select>
+     </div>
+    <div class ="form-control">
+    <label for="age" id="label_" title = "Enter Age as number of years"> Age of Patient: </label>
+    <input type="number" name="age_val" placeholder="Age" required="required" id="age_val" />
+   </div>
+    <div class = "form-control">
+    <label for="ki67" id="label_" title = "Choose integer value 0:17">KI67 Biopsy:</label>
+    <input type="number" name="ki67_val" placeholder="ki67 Biopsy" required="required" id="ki67_val" />
+   </div>
+   <div class="form-control">
+    <label for="g" class="name" id="label_" title = "integer vlaue 0:16"> G:</label>
+    <input type="number" name="g_val" placeholder="Gravidity" required="required" id= "g_val"  />
+   </div>
+   <div class = "form-control">
+    <label for="mamogram_s" id="label_" title = "integer value 0:73"> Mamogram Size:</label>
+    <input type="number" name="mammogram_s_val" placeholder="Mammogram Size" required="required" id = "mamogram_s_val" />
+   </div>
+   <div class = "form-control">
+    <label for="symptoms_s" id="label_" title = "integer vlaue 0:21"> Symptoms Size:</label>
+    <input type="number" name="symp_s_val" placeholder="Symptoms Size" required="required" id="symp_s_val" />
+   </div>
+   <div class= "form-control">
+    <label for="medical_h" id="label_"> Medical History:</label>
+    <select name = "medical_h" id = "medical_h">
+	<option value = " Negative " selected> Negative </option>
+        <option value = " DM "> DM </option>
+        <option value = " HTN "> HTN </option>
+        <option value = " 'DM + HTN "> 'DM + HTN </option>
+        <option value = " Others "> Others </option>
+        <option value = " DM+Others' "> DM+Others </option>
+        <option value = " 'HTN+Others "> 'HTN+Others </option>
+     </select>
+    </div>
+    <div class = "form-control">
+     <label for="quadrant_mamogram" id = "label_"> Mamogram Quadrant:</label>
+     <select name = "quad_mamo" class="option" id= "quad_mamo">
+       <option value = " LOQ " selected> LOQ </option>
+       <option value = " Multicentric "> Multicentric </option>
+       <option value = " LIQ "> LIQ </option>
+       <option value = " UOQ "> UOQ </option>
+       <option value = " UIQ "> UIQ </option>
+       <option value = " Central "> Central </option>
+       <option value = " NO  "> NO  </option>
+       <option value = " UOQ + UIQ"> UOQ + UIQ</option>
+     </select>
+    </div>
+    <div class = "form-control">
+      <label for="quadrant_symptoms" id="label_"> Quadrant Symptoms:</label>
+      <select name = "quad_symp" id = "quad_symp">
+	<option value = " LOQ " selected> LOQ </option>
+       <option value = " Multicentric "> Multicentric </option>
+       <option value = " LIQ "> LIQ </option>
+       <option value = " UOQ "> UOQ </option>
+       <option value = " UIQ "> UIQ </option>
+       <option value = " Central "> Central </option>
+       <option value = " NO  "> NO  </option>
+       <option value = " UOQ + UIQ"> UOQ + UIQ</option>
+       <option value = " UOQ + Central'"> UOQ + Central</option>
+       </select>
+    <div>
+      <button type = "submit"> Predict</button>
+      <button type = "reset"> Reset</button>
+
+</form>
+<h2> {{prediction_text}} </h2>
+
+</body>
+</html>
